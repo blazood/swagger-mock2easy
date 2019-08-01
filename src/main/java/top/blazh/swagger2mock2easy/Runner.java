@@ -1,12 +1,14 @@
-# swagger-mock2easy
-a simple importer for import swagger doc to mock2easy
+package top.blazh.swagger2mock2easy;
 
 
-## quick-start
-```java
-public class QuickStart {
+import com.alibaba.fastjson.JSONObject;
+import top.blazh.swagger2mock2easy.mock2easy.Mock2easyRequestEntity;
+import top.blazh.swagger2mock2easy.mock2easy.Mock2easySender;
+import top.blazh.swagger2mock2easy.swagger.*;
 
-   public static void main(String[] args) {
+public class Runner {
+
+    public static void main(String[] args) {
         SourceProvider<JSONObject> provider = SwaggerProvider.builder()
                 .url("http://127.0.0.1:8393/v2/api-docs")
                 .build();
@@ -19,4 +21,3 @@ public class QuickStart {
     }
 
 }
-```
