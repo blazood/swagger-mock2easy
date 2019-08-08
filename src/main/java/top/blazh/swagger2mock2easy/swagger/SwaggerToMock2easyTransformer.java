@@ -3,14 +3,10 @@ package top.blazh.swagger2mock2easy.swagger;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NonNull;
 import top.blazh.swagger2mock2easy.DocTransformer;
 import top.blazh.swagger2mock2easy.SourceProvider;
 import top.blazh.swagger2mock2easy.mock2easy.Mock2easyRequestEntity;
-import top.blazh.swagger2mock2easy.mock2easy.Mock2easyResponseParameter;
-
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,18 +17,34 @@ import java.util.stream.Collectors;
 @Builder
 public class SwaggerToMock2easyTransformer implements DocTransformer<JSONObject, Mock2easyRequestEntity> {
 
+    /**
+     * 入参转换器
+     */
     @NonNull
     private ParametersHandler parametersHandler;
 
+    /**
+     * http code 转换器
+     */
     @NonNull
     private CodeResponsesHandler codeResponsesHandler;
 
+    /**
+     * 出参转换器
+     * 这个主要是上面{@link CodeResponsesHandler} 200 的情况
+     */
     @NonNull
     private ResponsesHandler responsesHandler;
 
+    /**
+     * 接口的后缀
+     */
     @NonNull
     private String suffix;
 
+    /**
+     * 默认的转换器配置
+     */
     public static SwaggerToMock2easyTransformer DEFAULT = SwaggerToMock2easyTransformer.builder()
             .codeResponsesHandler(new CodeResponsesHandler())
             .parametersHandler(new ParametersHandler())
@@ -40,6 +52,11 @@ public class SwaggerToMock2easyTransformer implements DocTransformer<JSONObject,
             .suffix(".json")
             .build();
 
+    /**
+     * 转换主体
+     * @param provider
+     * @return
+     */
     @Override
     public List<Mock2easyRequestEntity> transform(SourceProvider<JSONObject> provider) {
         ArrayList<Mock2easyRequestEntity> entities = new ArrayList<>();
@@ -69,7 +86,6 @@ public class SwaggerToMock2easyTransformer implements DocTransformer<JSONObject,
 
             entity.setInterfaceUrl(path + suffix);
             entity.setInterfaceName(tag + "-" +apiContent.getString("summary"));
-
 
             // responses 处理
             JSONObject responses = apiContent.getJSONObject("responses");

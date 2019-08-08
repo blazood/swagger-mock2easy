@@ -1,12 +1,15 @@
 package top.blazh.swagger2mock2easy.mock2easy;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Getter;
 import lombok.Setter;
 import top.blazh.swagger2mock2easy.DocEntity;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -68,5 +71,10 @@ public class Mock2easyRequestEntity extends DocEntity implements Serializable {
      * mock 的 json 格式的返回
      */
     private String responseJson;
+
+    /**
+     * 该接口的上下文
+     */
+    private transient Map<String, Object> context;
 
 }

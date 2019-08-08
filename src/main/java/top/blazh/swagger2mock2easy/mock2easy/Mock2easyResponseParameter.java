@@ -21,7 +21,7 @@ public class Mock2easyResponseParameter  implements Serializable {
     @AllArgsConstructor
     @SuppressWarnings("all")
     public static enum Kind {
-        string("string"), array("array(object)"), object("object"), root("root");
+        string("string"), array("array(object)"), object("object"), root("root"), mock("mock");
         private String msg;
         @Override
         public String toString() {
