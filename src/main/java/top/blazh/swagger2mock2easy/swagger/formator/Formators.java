@@ -8,12 +8,14 @@ import top.blazh.swagger2mock2easy.swagger.formator.impl.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Formators {
 
-    public static List<TypeFormator> FORMATORS = Arrays.asList(
+    /**
+     * 默认的字段格式化集合
+     */
+    public static final List<TypeFormator> FORMATORS = Arrays.asList(
             new BoolFormator(),
             new IntegerFormator(),
             new NumberFormator(),
@@ -22,7 +24,15 @@ public class Formators {
             new ArrayFormator()
     );
 
-    public static Map<TypeEnum, TypeFormator> FORMAT_MAP = FORMATORS.stream().collect(Collectors.toMap(TypeFormator::type, Function.identity()));
+    public static final Map<TypeEnum, TypeFormator> FORMAT_MAP = FORMATORS.stream().collect(ConcurrentHashMap::new, (m, e) -> m.put(e.type(), e), ConcurrentHashMap::putAll);
+
+    /**
+     * 设置自己的格式处理器
+     * @param typeFormator
+     */
+    public static void setFormator(TypeFormator typeFormator){
+        FORMAT_MAP.put(typeFormator.type(), typeFormator);
+    }
 
 
     public static void format(String name, JSONObject obj, Mock2easyResponseParameter parent, Mock2easyRequestEntity entity){
